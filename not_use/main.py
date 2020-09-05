@@ -16,9 +16,8 @@ from util.triangle_similar import get_triangle_coefficient
 if __name__ == '__main__':
     src = cv2.imread("image/DSC00318.JPG")
     dst = cv2.imread("image/DSC00319.JPG")
-    cv2.imshow("src",src)
-    cv2.imshow("dst",dst)
-
+    # cv2.imshow("src",src)
+    # cv2.imshow("dst",dst)
     match = Match(src, dst)
     match.getInitialFeaturePairs()
     src_point = match.src_match
@@ -34,11 +33,7 @@ if __name__ == '__main__':
     dst_warp = np.zeros_like(src_warp)
     dst_warp[img_info.offset_y:dst.shape[0]+img_info.offset_y,img_info.offset_x:dst.shape[1]+img_info.offset_x,:] = dst[:,:,:]
     result,mask = blending_average(src_warp,dst_warp)
-    cv2.imshow("mask",mask*255)
-
-
-
-
+    # cv2.imshow("mask",mask*255)
     #TODO optimize the result by optical flow
 
     #todo STEP1 todo first generate rugular mesh box
@@ -69,6 +64,8 @@ if __name__ == '__main__':
     #             np.delete(weight,i,axis=0)
     #             np.delete(location,i,axis=0)
     #             np.delete(sample_vertices_or,i,axis=0)
+
+
 
     #todo we transfrom the image to gray the use the value of pixel as intensity
     src_warp_gray = cv2.cvtColor(src_warp,cv2.COLOR_BGR2GRAY)
@@ -126,10 +123,9 @@ if __name__ == '__main__':
     cofficients_g = np.array(cofficients_g)
     cofficients_g = cofficients_g.reshape(-1,4,2)
     bbss = np.array(bbss)
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>")
-    print(cofficients_g.shape)
-    print(bbss.shape)
-
+    # print(">>>>>>>>>>>>>>>>>>>>>>>>>")
+    # print(cofficients_g.shape)
+    # print(bbss.shape)
 
     #todo show all of these triangle
     # bg  = np.zeros_like(dst_warp)
@@ -164,26 +160,21 @@ if __name__ == '__main__':
     #
     # cofficients_g = cofficients_g*0
     # bbss = bbss*0
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>")
-    print(triangles.shape)
-    print(triangle_coefficient.shape)
-    print(cofficients.shape)
-    print(location.shape)
-    print(bs.shape)
-    print(mesh_boxes_src.shape)
-    print(cofficients_g.shape)
-    print(bbss.shape)
-    # cofficients_g = cofficients_g*0
-    # bbss = bbss*0
-    # triangle_coefficient = triangle_coefficient*0
+
+    # todo add strong constrains to the edge of the image,cause we found that the edge often will had serious deformation
+    print("mesh_boxes_src.shape"+str(mesh_boxes_src.shape))
+    # todo get the vertices on the edge
+    # up_edge = mesh_boxes_src[0,:,:]
+    # down_edge = mesh_boxes_src[14,:,:]
+    # left_edge = mesh_boxes_src[1:14,0,:]
+    # right_edge = mesh_boxes_src[1:14,17,:]
+    # total_edge = np.concatenate([up_edge,down_edge,left_edge,right_edge],axis=0)
+    # print("the shape of edge:"+str(total_edge.shape))
+
+
     c = optimization.optimize(triangles,triangle_coefficient,cofficients,location,bs,mesh_boxes_src,cofficients_g,bbss,0.16)
     c = c.astype(np.int)
     c = c.reshape(dst_y_num,dst_x_num,2)
-    # c = c[:,:,(1,0)]
-    # ccc = copy.deepcopy(c)
-    # ccc = ccc.reshape(-1,2)
-    # for i in range(ccc.shape[0]):
-    #     ccc[i] = ccc[i]+[112,114]
 
 
     """the offset of texture_mapping bring"""
@@ -195,7 +186,7 @@ if __name__ == '__main__':
     final_result = texture_mapping.texture_mapping(mesh_boxes_src.astype(np.int), c.astype(np.int),
                                     src_warp)
     final_result = final_result.astype(np.uint8)
-    cv2.imshow("final_result",final_result)
+    # cv2.imshow("final_result",final_result)
 
 
 
@@ -207,7 +198,7 @@ if __name__ == '__main__':
     pointss = pointss.astype(np.int)
 
     warping_point = draw.draw(warping_point,pointss)
-    cv2.imshow("warp_point",warping_point)
+    # cv2.imshow("warp_point",warping_point)
 
     bg = np.zeros_like(final_result)
 
@@ -227,8 +218,8 @@ if __name__ == '__main__':
 
     mesh_pic = draw.draw(src_warp,mesh_boxes_src.reshape(-1,2))
 
-    cv2.imshow("mesh_pic",mesh_pic)
-    cv2.imshow("src_warp",src_warp)
-    cv2.imshow("dst_warp",dst_warp)
+    # cv2.imshow("mesh_pic",mesh_pic)
+    # cv2.imshow("src_warp",src_warp)
+    # cv2.imshow("dst_warp",dst_warp)
     cv2.imshow("result",result)
     cv2.waitKey(0)

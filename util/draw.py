@@ -39,3 +39,15 @@ class Draw:
             cv2.line(img, (int(line.start[0]), int(line.start[1])), (np.int(line.end[0]), np.int(line.end[1])),
                      (0, 0, 255), 1)
         return img
+
+    def draw_mesh_box(self,img,mesh_box):
+        for i in range(mesh_box.shape[0]-1):
+            for j in range(mesh_box.shape[1]-1):
+                cv2.line(img,(mesh_box[i,j,0],mesh_box[i,j,1]),(mesh_box[i,j+1,0],mesh_box[i,j+1,1]),(255,0,0),1)
+                cv2.line(img, (mesh_box[i, j+1, 0], mesh_box[i, j+1, 1]), (mesh_box[i+1, j + 1, 0], mesh_box[i+1, j + 1, 1]),
+                         (255, 0, 0), 1)
+                cv2.line(img, (mesh_box[i+1, j+1, 0], mesh_box[i+1, j+1, 1]), (mesh_box[i+1, j , 0], mesh_box[i+1, j , 1]),
+                         (255, 0, 0), 1)
+                cv2.line(img, (mesh_box[i+1, j, 0], mesh_box[i+1, j, 1]), (mesh_box[i, j , 0], mesh_box[i, j , 1]),
+                         (255, 0, 0), 1)
+        return img

@@ -11,12 +11,13 @@ def bin_interpolate(sample_points,vertices):
     sample_points = sample_points.reshape(-1,2)
     x_measure = np.array([i for i in vertices[0,:,0]])
     y_measure = np.array([i for i in vertices[:,0,1]])
-    print(x_measure)
-    print(y_measure)
+    # print(x_measure)
+    # print(y_measure)
     # vertices = vertices.reshape(-1,2)
     for i in range(sample_points.shape[0]):
         # here the value is 50 cause we already know that the value in mesh.py is also 50. in the end we will replace the value with the value in the configuration file
-
+        y_no = 0
+        x_no = 0
         for j in range(y_measure.shape[0]):
             if sample_points[i,1]<y_measure[j]:
                 # print(sample_points[i, 1], x_measure[j])

@@ -112,10 +112,6 @@ if __name__ == '__main__':
     cofficients_g = np.array(cofficients_g)
     cofficients_g = cofficients_g.reshape(-1,4,2)
     bbss = np.array(bbss)
-
-
-
-
     print(">>>>>>>>>>>>>>>>>>>>>>>>>")
     print(triangles.shape)
     print(triangle_coefficient.shape)
@@ -134,7 +130,7 @@ if __name__ == '__main__':
     # cofficients_g = cofficients_g * 0
     # bbss = bbss * 0
 
-    c = optimization.optimize(triangles,triangle_coefficient,cofficients,location,bs,mesh_boxes_src,cofficients_g,bbss,0.2)
+    c = optimization.optimize(triangles,triangle_coefficient,cofficients,location,bs,mesh_boxes_src,cofficients_g,bbss,0.3)
     c = c.astype(np.int)
     c = c.reshape(src_y_num,src_x_num,2)
 
