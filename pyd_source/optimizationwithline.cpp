@@ -209,13 +209,6 @@ pybind11::array_t<uint> optimize(pybind11::array_t<int> &triangle, pybind11::arr
 		r7(i) = x[i];
 	}
 	return result;
-	list<int> a;
-	a.resize(5);
-	deque<int> bbbbb;
-	bbbbb.resize(4);
-	vector<int> ppppp;
-	ppppp.resize(10);
-
 }
 
 PYBIND11_MODULE(optimization, m)
